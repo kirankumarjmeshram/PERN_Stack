@@ -49,11 +49,21 @@ app.put("./todos/:id", async(req, res)=>{
         const updateTodo = await pool.query("UPDATE todo SET description = $1 WHERE todo_id = $2",[description, id]);
         res.json("Todo is Updated!")
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
     }
 })
 
+// Delete
 
+app.delete("./todos/:id", async(req, res)=>{
+    try {
+        const {id} = req.params;
+        const deleteTodo = await pool.query("DELETE FROM todo WHERE todo_id = $1",[id]);
+        res.json("Todo is Deleted!")
+    } catch (error) {
+        console.log(error.message);
+    }
+});
 
 
 app.listen(5000, ()=>{
