@@ -16,12 +16,30 @@ app.post("./todos", async (req, res)=>{
         );
         res.json(newTodo.rows[0]);
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 });
 
 // GET ALL
+app.get("./todos",async (req, res)=>{
+    try {
+        const allTodos = await pool.query("SELECT * FROM todo");
+        res.json(allTodos.rows)
+    }catch(err){
+        console.log(err.message)
+    }
+})
 
+// GET A TODO
+app.get("./todos/:id", async (req, res)=>{
+    try {
+        const {id} = req.params;
+        const toda = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id]);
+        res.json(todo.row[0])
+    } catch (error) {
+        console.log(error.message);
+    }
+})
 
 
 app.listen(5000, ()=>{
